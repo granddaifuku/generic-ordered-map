@@ -4,6 +4,11 @@ import (
 	"container/list"
 )
 
+type Entry[T comparable, U any] struct {
+	Key   T
+	Value U
+}
+
 type mapElement[T comparable, U any] struct {
 	key   T
 	value U
@@ -95,4 +100,19 @@ func (m *Map[T, U]) Values() []U {
 	}
 
 	return values
+}
+
+// Entries converts map to slice of Entry
+func (m *Map[T, U]) Entries() []Entry[T, U] {
+	entries := make([]Entry[T, U], m.Len())
+
+	ele := m.l.Front()
+	for i := 0; ele != nil; i++ {
+		key := ele.Value.(*mapElement[T, U]).key
+		value := ele.Value.(*mapElement[T, U]).value
+		entries[i] = Entry[T, U]{Key: key, Value: value}
+		ele = ele.Next()
+	}
+
+	return entries
 }

@@ -226,6 +226,40 @@ func TestValues(t *testing.T) {
 	}
 }
 
+func TestEntries(t *testing.T) {
+	tests := []struct {
+		name             string
+		preDatasetKeys   []int
+		preDatasetValues []string
+	}{
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{53, 37, 47, 2357, 1259, 2},
+			preDatasetValues: []string{"daifuku", "haru", "hime", "grand", "1998", "grand"},
+		},
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{},
+			preDatasetValues: []string{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := setup(t, tt.preDatasetKeys, tt.preDatasetValues)
+
+			want := make([]Entry[int, string], len(tt.preDatasetKeys))
+			for i := range tt.preDatasetKeys {
+				want[i] = Entry[int, string]{Key: tt.preDatasetKeys[i], Value: tt.preDatasetValues[i]}
+			}
+
+			got := m.Entries()
+			if diff := cmp.Diff(got, want); diff != "" {
+				t.Errorf("Map.Entries() tests failed (-got +want):\n%s", diff)
+			}
+		})
+	}
+}
+
 func setup(t *testing.T, keys []int, values []string) *Map[int, string] {
 	if len(keys) != len(values) {
 		t.Fatal("Length of the pre-dataset is not equal")
