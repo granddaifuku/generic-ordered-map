@@ -66,6 +66,33 @@ func (m *Map[T, U]) Delete(key T) bool {
 	return ok
 }
 
+// Len returns the number of elements stores in the map.
 func (m *Map[T, U]) Len() int {
 	return len(m.mp)
+}
+
+// Keys returns the slice of the keys.
+func (m *Map[T, U]) Keys() []T {
+	keys := make([]T, m.Len())
+
+	ele := m.l.Front()
+	for i := 0; ele != nil; i++ {
+		keys[i] = ele.Value.(*mapElement[T, U]).key
+		ele = ele.Next()
+	}
+
+	return keys
+}
+
+// Values returns the slice of the values.
+func (m *Map[T, U]) Values() []U {
+	values := make([]U, m.Len())
+
+	ele := m.l.Front()
+	for i := 0; ele != nil; i++ {
+		values[i] = ele.Value.(*mapElement[T, U]).value
+		ele = ele.Next()
+	}
+
+	return values
 }

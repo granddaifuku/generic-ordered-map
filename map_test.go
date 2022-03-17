@@ -169,6 +169,63 @@ func TestLen(t *testing.T) {
 	}
 }
 
+func TestKeys(t *testing.T) {
+	tests := []struct {
+		name             string
+		preDatasetKeys   []int
+		preDatasetValues []string
+	}{
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{53, 37, 47, 2357, 1259, 2},
+			preDatasetValues: []string{"daifuku", "haru", "hime", "grand", "1998", "grand"},
+		},
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{},
+			preDatasetValues: []string{},
+		}}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := setup(t, tt.preDatasetKeys, tt.preDatasetValues)
+
+			got := m.Keys()
+			if diff := cmp.Diff(got, tt.preDatasetKeys); diff != "" {
+				t.Errorf("Map.Keys() tests failed (-got +want):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestValues(t *testing.T) {
+	tests := []struct {
+		name             string
+		preDatasetKeys   []int
+		preDatasetValues []string
+	}{
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{53, 37, 47, 2357, 1259, 2},
+			preDatasetValues: []string{"daifuku", "haru", "hime", "grand", "1998", "grand"},
+		},
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{},
+			preDatasetValues: []string{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := setup(t, tt.preDatasetKeys, tt.preDatasetValues)
+
+			got := m.Values()
+			if diff := cmp.Diff(got, tt.preDatasetValues); diff != "" {
+				t.Errorf("Map.Values() tests failed (-got +want):\n%s", diff)
+			}
+		})
+	}
+}
+
 func setup(t *testing.T, keys []int, values []string) *Map[int, string] {
 	if len(keys) != len(values) {
 		t.Fatal("Length of the pre-dataset is not equal")
