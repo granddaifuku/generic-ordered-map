@@ -7,41 +7,23 @@ on:
     branches: [main]
 
 jobs:
-  # test:
-  #   runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Set up
+        uses: actions/setup-go@v2
+        with:
+          go-versino: 1.18.0
 
-  #   services:
-  #     postgres:
-  #       image: postgres
-  #       env:
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_PASSWORD: password
-  #         POSTGRES_DB: test
-  #       options: >-
-  #         --health-cmd pg_isready
-  #         --health-interval 10s
-  #         --health-timeout 5s
-  #         --health-retries 5
-  #       ports:
-  #         - 5432:5432
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  #   steps:
-  #     - name: Set up
-  #       uses: actions/setup-go@v2
-  #       with:
-  #         go-versino: 1.16
+      - name: Get dependencies
+        run: go get -v -t -d ./...
 
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: init DB
-  #       run: psql -f ./config/init.sql postgres://postgres:password@localhost:5432/test
-
-  #     - name: Get dependencies
-  #       run: go get -v -t -d ./...
-
-  #     - name: Test code
-  #       run: source ./src/tests/envs.sh && go test -v ./...
+      - name: Test code
+        run: go test -v ./...
 
   # golangci:
   #   name: lint
