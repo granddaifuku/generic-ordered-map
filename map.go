@@ -116,3 +116,17 @@ func (m *Map[T, U]) Entries() []Entry[T, U] {
 
 	return entries
 }
+
+func (m *Map[T, U]) FromEntries(entries []Entry[T, U]) {
+	for _, entry := range entries {
+		m.Set(entry.Key, entry.Value)
+	}
+}
+
+// Merge merges the other maps to this map
+func (m *Map[T, U]) Merge(maps ...Map[T, U]) {
+	for _, mp := range maps {
+		entry := mp.Entries()
+		m.FromEntries(entry)
+	}
+}

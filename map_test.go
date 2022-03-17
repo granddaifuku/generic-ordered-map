@@ -260,6 +260,68 @@ func TestEntries(t *testing.T) {
 	}
 }
 
+func TestFromEntris(t *testing.T) {
+	tests := []struct {
+		name             string
+		preDatasetKeys   []int
+		preDatasetValues []string
+		arg              []Entry[int, string]
+	}{
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{53, 37, 47, 2357, 1259, 2},
+			preDatasetValues: []string{"daifuku", "haru", "hime", "grand", "1998", "grand"},
+			arg: []Entry[int, string]{
+				{
+					Key:   15,
+					Value: "April",
+				},
+				{
+					Key:   9,
+					Value: "September",
+				},
+			},
+		},
+		{
+			name:             "Duplicate",
+			preDatasetKeys:   []int{53, 37, 47, 2357, 1259, 2},
+			preDatasetValues: []string{"daifuku", "haru", "hime", "grand", "1998", "grand"},
+			arg: []Entry[int, string]{
+				{
+					Key:   15,
+					Value: "April",
+				},
+				{
+					Key:   9,
+					Value: "September",
+				},
+				{
+					Key:   2,
+					Value: "February",
+				},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := setup(t, tt.preDatasetKeys, tt.preDatasetValues)
+			m.FromEntries(tt.arg)
+
+			for _, entry := range tt.arg {
+				ele, ok := m.mp[entry.Key]
+				if !ok {
+					t.Errorf("Map.FromEntries() failed to insert")
+				}
+				value := ele.Value.(*mapElement[int, string]).value
+				if value != entry.Value {
+					t.Errorf("Map.FromEntries() = %v, want = %v", value, entry.Value)
+				}
+
+			}
+		})
+	}
+}
+
 func setup(t *testing.T, keys []int, values []string) *Map[int, string] {
 	if len(keys) != len(values) {
 		t.Fatal("Length of the pre-dataset is not equal")
