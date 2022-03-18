@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 func TestNewMapElement(t *testing.T) {
@@ -317,6 +318,67 @@ func TestFromEntris(t *testing.T) {
 					t.Errorf("Map.FromEntries() = %v, want = %v", value, entry.Value)
 				}
 
+			}
+		})
+	}
+}
+
+func TestFront(t *testing.T) {
+	tests := []struct {
+		name             string
+		preDatasetKeys   []int
+		preDatasetValues []string
+	}{
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{53, 37, 47, 2357, 1259, 2},
+			preDatasetValues: []string{"daifuku", "haru", "hime", "grand", "1998", "grand"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := setup(t, tt.preDatasetKeys, tt.preDatasetValues)
+
+			got := m.Front()
+			want := &Element[int, string]{
+				Key:   tt.preDatasetKeys[0],
+				Value: tt.preDatasetValues[0],
+			}
+
+			opt := cmpopts.IgnoreUnexported(Element[int, string]{})
+			if diff := cmp.Diff(got, want, opt); diff != "" {
+				t.Errorf("Map.Front() tests failed (-got +want):\n%s", diff)
+			}
+		})
+	}
+}
+
+func TestBack(t *testing.T) {
+	tests := []struct {
+		name             string
+		preDatasetKeys   []int
+		preDatasetValues []string
+	}{
+		{
+			name:             "Normal",
+			preDatasetKeys:   []int{53, 37, 47, 2357, 1259, 2},
+			preDatasetValues: []string{"daifuku", "haru", "hime", "grand", "1998", "grand"},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := setup(t, tt.preDatasetKeys, tt.preDatasetValues)
+
+			got := m.Back()
+			l := len(tt.preDatasetKeys)
+			want := &Element[int, string]{
+				Key:   tt.preDatasetKeys[l-1],
+				Value: tt.preDatasetValues[l-1],
+			}
+
+			opt := cmpopts.IgnoreUnexported(Element[int, string]{})
+			if diff := cmp.Diff(got, want, opt); diff != "" {
+				t.Errorf("Map.Back() tests failed (-got +want):\n%s", diff)
 			}
 		})
 	}

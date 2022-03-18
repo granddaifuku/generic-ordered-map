@@ -130,3 +130,21 @@ func (m *Map[T, U]) Merge(maps ...Map[T, U]) {
 		m.FromEntries(entry)
 	}
 }
+
+func (m *Map[T, U]) Front() *Element[T, U] {
+	front := m.l.Front()
+	if front == nil {
+		return nil
+	}
+
+	return newElement[T, U](front)
+}
+
+func (m *Map[T, U]) Back() *Element[T, U] {
+	back := m.l.Back()
+	if back == nil {
+		return nil
+	}
+
+	return newElement[T, U](back)
+}
