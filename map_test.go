@@ -13,7 +13,7 @@ func TestNewMapElement(t *testing.T) {
 
 func TestNewMap(t *testing.T) {}
 
-func TestSet(t *testing.T) {
+func TestMap_Set(t *testing.T) {
 	type args struct {
 		key   int
 		value string
@@ -63,7 +63,7 @@ func TestSet(t *testing.T) {
 	}
 }
 
-func TestGet(t *testing.T) {
+func TestMap_Get(t *testing.T) {
 	type want struct {
 		value string
 		ok    bool
@@ -105,7 +105,7 @@ func TestGet(t *testing.T) {
 	}
 }
 
-func TestDelete(t *testing.T) {
+func TestMap_Delete(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
@@ -139,7 +139,7 @@ func TestDelete(t *testing.T) {
 	}
 }
 
-func TestLen(t *testing.T) {
+func TestMap_Len(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
@@ -170,7 +170,7 @@ func TestLen(t *testing.T) {
 	}
 }
 
-func TestKeys(t *testing.T) {
+func TestMap_Keys(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
@@ -198,7 +198,7 @@ func TestKeys(t *testing.T) {
 	}
 }
 
-func TestValues(t *testing.T) {
+func TestMap_Values(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
@@ -227,7 +227,7 @@ func TestValues(t *testing.T) {
 	}
 }
 
-func TestEntries(t *testing.T) {
+func TestMap_Entries(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
@@ -261,7 +261,7 @@ func TestEntries(t *testing.T) {
 	}
 }
 
-func TestFromEntris(t *testing.T) {
+func TestMap_FromEntris(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
@@ -323,7 +323,7 @@ func TestFromEntris(t *testing.T) {
 	}
 }
 
-func TestFront(t *testing.T) {
+func TestMap_Front(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
@@ -353,7 +353,7 @@ func TestFront(t *testing.T) {
 	}
 }
 
-func TestBack(t *testing.T) {
+func TestMap_Back(t *testing.T) {
 	tests := []struct {
 		name             string
 		preDatasetKeys   []int
