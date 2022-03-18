@@ -59,3 +59,51 @@ func TestPrev(t *testing.T) {
 		})
 	}
 }
+
+func TestSetNext(t *testing.T) {
+	tests := []struct {
+		name       string
+		preDataset []int
+	}{
+		{
+			name:       "Normal",
+			preDataset: []int{53, 37, 47, 2357, 1259, 2},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			st := setupSet(t, tt.preDataset)
+			i := 0
+			for el := st.Front(); el != nil; el = el.Next() {
+				if el.Value != tt.preDataset[i] {
+					t.Errorf("SetElement.Next() = %v, want = %v", el.Value, tt.preDataset[i])
+				}
+				i++
+			}
+		})
+	}
+}
+
+func TestSetPrev(t *testing.T) {
+	tests := []struct {
+		name       string
+		preDataset []int
+	}{
+		{
+			name:       "Normal",
+			preDataset: []int{53, 37, 47, 2357, 1259, 2},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			st := setupSet(t, tt.preDataset)
+			i := len(tt.preDataset) - 1
+			for el := st.Back(); el != nil; el = el.Prev() {
+				if el.Value != tt.preDataset[i] {
+					t.Errorf("SetElement.Prev() = %v, want = %v", el.Value, tt.preDataset[i])
+				}
+				i--
+			}
+		})
+	}
+}
